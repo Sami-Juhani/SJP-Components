@@ -1,4 +1,4 @@
-import { InfiniteMediaScroller, Media, MediaScrollerOptions } from "./components/InfiniteMediaScroller";
+import { InfiniteCarousel, Media, MediaScrollerOptions } from "./components/InfiniteCarousel";
 
 const mockData: Media[] = [
   {
@@ -130,7 +130,7 @@ const userDefinedOptions: MediaScrollerOptions = {
 function App() {
   return (
     <main className="container-max-width">
-      <InfiniteMediaScroller data={mockData} />
+      <InfiniteCarousel data={mockData} />
     </main>
   );
 }
