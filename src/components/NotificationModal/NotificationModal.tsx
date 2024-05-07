@@ -2,11 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cc } from "../../utils/cc";
 import { DEFAULT_MODAL_OPTIONS } from "./utils";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import CloseIcon from "@mui/icons-material/Close";
+
+import useIcons from "../../hooks/useIcons";
 import styles from "./NotificationModal.module.css";
 
 export type NotificationModalOptions = {
@@ -51,6 +48,8 @@ export function NotificationModal({
 }: NotificationModalProps) {
   const [isClosing, setIsClosing] = useState(false);
   const prevIsOpen = useRef<boolean>();
+  const { SuccessIcon, ErrorIcon, WarningIcon, NotificationIcon } = useIcons().status;
+  const { CloseIcon } = useIcons().action;
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
@@ -94,16 +93,16 @@ export function NotificationModal({
         <div className={cc(styles.modalBody, styles[type])}>
           <div className="row gap-small">
             {type === "success" && (
-              <CheckCircleOutlineIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
+              <SuccessIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
             )}
             {type === "warning" && (
-              <ErrorOutlineIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
+              <ErrorIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
             )}
             {type === "notification" && (
-              <NotificationsNoneIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
+              <NotificationIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
             )}
             {type === "alert" && (
-              <WarningAmberIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
+              <WarningIcon className={cc(styles.icon, styles[type], options.size && styles[options.size])} />
             )}
             <span className={cc(styles.modalText, options.size && styles[options.size])}>{text}</span>
           </div>

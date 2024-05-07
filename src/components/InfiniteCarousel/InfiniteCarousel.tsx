@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { cc } from "../../utils/cc";
-import useIcons from "../hooks/useIcons";
+import useIcons from "../../hooks/useIcons";
 import styles from "./InfiniteCarousel.module.css";
 
 export type Media = {
