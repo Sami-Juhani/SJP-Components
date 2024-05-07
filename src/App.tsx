@@ -1,9 +1,8 @@
-import { MediaScroller, Media, MediaScrollerOptions } from "./components/MediaScroller/MediaScoller";
-import { NotificationModalTestPage } from "./pages/NotificationModalTestPage";
+import { InfiniteMediaScroller, Media, MediaScrollerOptions } from "./components/InfiniteMediaScroller";
 
 const mockData: Media[] = [
   {
-    id: "crypto.randomUUID()",
+    id: crypto.randomUUID(),
     title: "Title",
     imgSrc: "https://via.assets.so/album.png?id=1&q=95&w=320&h=360&fit=fill",
     description:
@@ -131,7 +130,7 @@ const userDefinedOptions: MediaScrollerOptions = {
 function App() {
   return (
     <main className="container-max-width">
-      <MediaScroller data={mockData} />
+      <InfiniteMediaScroller data={mockData} />
     </main>
   );
 }

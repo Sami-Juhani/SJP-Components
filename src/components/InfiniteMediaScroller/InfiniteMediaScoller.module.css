@@ -1,25 +1,33 @@
 :root {
   --itemsOnScreen: 4;
+  --image-width: calc(100% / var(--itemsOnScreen) - 3%);
+  --scrollerIndex: 0;
+  --itemGap: 0.5rem;
 }
 
 .carouselContainer {
   margin-top: 10rem;
   width: 100%;
   position: relative;
+  overflow-x: hidden;
+  background-color: rgba(0, 0, 0, 0.65);
 }
 
 .carouselScroller {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: calc(100% / var(--itemsOnScreen) - 3%);
-  gap: 0.5rem;
+  grid-auto-columns: var(--image-width);
+  gap: var(--itemGap);
   padding-block: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.65);
-  overflow-x: hidden;
-  transition: transform 250ms ease-in-out;
+  transform: translateX(calc((var(--scrollerIndex) * var(--image-width) + var(--scrollerIndex) * var(--itemGap)) * -1 + 50% - var(--image-width) / 2));
+  transition: transform 250ms ease-in;
 }
 
 .carouselScroller > img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  overflow: hidden;
   cursor: pointer;
 }
 
@@ -51,18 +59,6 @@
   cursor: pointer;
   top: 0;
   transition: background-color 100ms ease-in-out;
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.7);
-  }
-  &:hover svg {
-    transform: scale(1.2);
-  }
-}
-
-.prevBtn svg,
-.nextBtn svg {
-  font-size: var(--icon-size-sm);
-  transition: all 100ms ease-in-out;
 }
 
 .prevBtn {
@@ -73,12 +69,22 @@
   right: 0;
 }
 
-.carouselScroller > img {
-  width: 100%;
-  aspect-ratio: 1.5/1;
-  object-fit: cover;
-  border-radius: 0.25rem;
-  overflow: hidden;
+.prevBtn:hover,
+.prevBtn:focus,
+.nextBtn:hover,
+.nextBtn:focus {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.prevBtn svg,
+.nextBtn svg {
+  font-size: var(--icon-size-sm);
+  transition: all 100ms ease-in-out;
+}
+
+.prevBtn:hover svg, .prevBtn:focus svg,
+.nextBtn:hover svg, .nextBtn:focus svg {
+  transform: scale(1.2);
 }
 
 .activeData {
