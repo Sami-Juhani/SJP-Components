@@ -3,8 +3,8 @@ import { createPortal } from "react-dom";
 import { cc } from "../../utils/cc";
 import { DEFAULT_MODAL_OPTIONS } from "./utils";
 
+import useIcons from "../../hooks/useIcons";
 import styles from "./NotificationModal.module.css";
-import useIcons from "../hooks/useIcons";
 
 export type NotificationModalOptions = {
   position: "center" | "topLeft" | "topCenter" | "topRight" | "bottomLeft" | "bottomCenter" | "bottomRight";

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./MediaScoller.module.css";
+import useIcons from "../../hooks/useIcons";
 import { cc } from "../../utils/cc";
-import useIcons from "../hooks/useIcons";
+import styles from "./MediaScoller.module.css";
 
 export type Media = {
   id: string;
