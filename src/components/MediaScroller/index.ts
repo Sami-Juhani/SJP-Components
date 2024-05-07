@@ -1,1 +1,1 @@
-export { MediaScroller, type Media } from "./MediaScoller"
+export { MediaScroller, type Media, type MediaScrollerOptions } from "./MediaScoller"

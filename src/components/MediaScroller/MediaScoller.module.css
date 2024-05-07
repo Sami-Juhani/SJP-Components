@@ -1,38 +1,35 @@
-:root {
-  --itemsOnScreen: 4;
-}
-
-.carouselContainer {
-  margin-top: 10rem;
+.mediaContainer {
+  margin-top: 2rem;
   width: 100%;
   position: relative;
 }
 
-.carouselScroller {
+.mediaScroller {
+  --itemsOnScreen: 1;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: calc(100% / var(--itemsOnScreen) - 3%);
   gap: 0.5rem;
-  padding-block: 0.5rem;
+  padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0.65);
   overflow-x: hidden;
   transition: transform 250ms ease-in-out;
 }
 
-.carouselScroller > img {
+.mediaScroller > img {
   cursor: pointer;
 }
 
-.carouselScroller > img.blurred {
+.mediaScroller > img.blurred {
   filter: blur(5px);
 }
 
-.carouselScroller > img:hover {
+.mediaScroller > img:hover {
   filter: blur(0px);
   border: 3px solid rgb(240, 110, 110);
 }
 
-.carouselScroller > img.activeImage {
+.mediaScroller > img.activeImage {
   border: 3px solid rgb(255, 0, 0);
   filter: blur(0px);
 }
@@ -73,7 +70,7 @@
   right: 0;
 }
 
-.carouselScroller > img {
+.mediaScroller > img {
   width: 100%;
   aspect-ratio: 1.5/1;
   object-fit: cover;
@@ -82,14 +79,37 @@
 }
 
 .activeData {
-  width: 60%;
-  margin: 1rem auto;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.5rem;
 }
 
 .activeData h3 {
-  font-size: var(--title-size-lg);
+  font-size: var(--title-size-md);
 }
 
 .activeData span {
-  font-size: var(--title-size-sm);
+  font-size: var(--title-size-xs);
+}
+
+@media screen and (min-width: 350px) {
+  .mediaScroller {
+    --itemsOnScreen: 2;
+  }
+}
+
+@media screen and (min-width: 698px) {
+  .mediaScroller {
+    --itemsOnScreen: 3;
+  }
+
+  .activeData {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .mediaScroller {
+    --itemsOnScreen: 4;
+  }
 }

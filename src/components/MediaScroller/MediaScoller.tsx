@@ -25,7 +25,7 @@ const DEFAULT_MEDIASCROLLER_OPTIONS = {
 };
 
 export function MediaScroller({ data, options = DEFAULT_MEDIASCROLLER_OPTIONS }: MediaScrollerProps) {
-  const [activeDataIndex, setActiveDataIndex] = useState(Math.ceil(data.length / 2));
+  const [activeDataIndex, setActiveDataIndex] = useState(0);
   const activeDataRef = useRef<HTMLImageElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const firstRenderDoneRef = useRef(false);
@@ -45,7 +45,7 @@ export function MediaScroller({ data, options = DEFAULT_MEDIASCROLLER_OPTIONS }:
 
   return (
     <>
-      <section className={styles.carouselContainer}>
+      <section className={styles.mediaContainer}>
         <button
           className={styles.prevBtn}
           type="button"
@@ -58,7 +58,7 @@ export function MediaScroller({ data, options = DEFAULT_MEDIASCROLLER_OPTIONS }:
         >
           <ArrowLeft />
         </button>
-        <div className={styles.carouselScroller} ref={scrollerRef}>
+        <div className={styles.mediaScroller} ref={scrollerRef}>
           {data.map((item, index) => (
             <img
               className={cc(
