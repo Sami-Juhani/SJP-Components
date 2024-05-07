@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NotificationModal, NotificationModalOptions } from "../components/NotificationModal";
 import { DEFAULT_MODAL_OPTIONS } from "../components/NotificationModal/utils";
 
-export function NotificationModalTestPage() {
+export function NotificationModalTest() {
   const [isOkModalOpen, setIsOkModalOpenOpen] = useState(false);
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);

@@ -1,0 +1,115 @@
+.mediaContainer {
+    margin-top: 2rem;
+    width: 100%;
+    position: relative;
+  }
+  
+  .mediaScroller {
+    --itemsOnScreen: 1;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(100% / var(--itemsOnScreen) - 3%);
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.65);
+    overflow-x: hidden;
+    transition: transform 250ms ease-in-out;
+  }
+  
+  .mediaScroller > img {
+    cursor: pointer;
+  }
+  
+  .mediaScroller > img.blurred {
+    filter: blur(5px);
+  }
+  
+  .mediaScroller > img:hover {
+    filter: blur(0px);
+    border: 3px solid rgb(240, 110, 110);
+  }
+  
+  .mediaScroller > img.activeImage {
+    border: 3px solid rgb(255, 0, 0);
+    filter: blur(0px);
+  }
+  
+  .prevBtn,
+  .nextBtn {
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    height: -webkit-fill-available;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    justify-content: center;
+    align-items: center;
+    padding-inline: 0.25rem;
+    cursor: pointer;
+    top: 0;
+    transition: background-color 100ms ease-in-out;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+    &:hover svg {
+      transform: scale(1.2);
+    }
+  }
+  
+  .prevBtn svg,
+  .nextBtn svg {
+    font-size: var(--icon-size-sm);
+    transition: all 100ms ease-in-out;
+  }
+  
+  .prevBtn {
+    left: 0;
+  }
+  
+  .nextBtn {
+    right: 0;
+  }
+  
+  .mediaScroller > img {
+    width: 100%;
+    aspect-ratio: 1.5/1;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+  
+  .activeData {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0.5rem;
+  }
+  
+  .activeData h3 {
+    font-size: var(--title-size-md);
+  }
+  
+  .activeData span {
+    font-size: var(--title-size-xs);
+  }
+  
+  @media screen and (min-width: 350px) {
+    .mediaScroller {
+      --itemsOnScreen: 2;
+    }
+  }
+  
+  @media screen and (min-width: 698px) {
+    .mediaScroller {
+      --itemsOnScreen: 3;
+    }
+  
+    .activeData {
+      width: 60%;
+    }
+  }
+  
+  @media screen and (min-width: 1000px) {
+    .mediaScroller {
+      --itemsOnScreen: 4;
+    }
+  }
