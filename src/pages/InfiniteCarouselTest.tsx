@@ -1,11 +1,12 @@
 import { mockData } from "../assets/data/mediaScroller";
 import { InfiniteCarousel } from "../components/InfiniteCarousel";
-import { MediaScrollerOptions } from "../components/MediaScroller";
+import { CarouselOptions } from "../components/InfiniteCarousel/InfiniteCarousel";
 
 
 export function InfiniteCarouselTest() {
-  const userDefinedOptions: MediaScrollerOptions = {
+  const userDefinedOptions: CarouselOptions = {
     blurred: false,
+    itemsOnScreen: 5
   };
 
   return <InfiniteCarousel data={mockData} options={userDefinedOptions} />;
