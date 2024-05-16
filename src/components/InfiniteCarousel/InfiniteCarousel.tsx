@@ -30,7 +30,6 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
   const [scrollerData, setScrollerData] = useState<Media[]>();
   const [activeDataIndex, setActiveDataIndex] = useState<number>();
   const [isScrolling, setIsScrolling] = useState(false);
-  const activeDataRef = useRef<HTMLImageElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const firstRenderDoneRef = useRef(false);
   const resetRef = useRef(false);
@@ -66,8 +65,7 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
   }, [data, startIndex, scrollerRef, options.itemsOnScreen]);
 
   function onArrowClick(direction: "left" | "right") {
-    if (scrollerRef.current == null || activeDataRef.current == null || isScrolling || scrollerData === undefined)
-      return;
+    if (scrollerRef.current == null || isScrolling || scrollerData === undefined) return;
     setIsScrolling(true);
     const prevIndex = parseInt(getComputedStyle(scrollerRef.current).getPropertyValue("--scrollerIndex"));
 
@@ -80,9 +78,6 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
       newIndex = prevIndex < scrollerData.length - 1 ? prevIndex + 1 : startIndex.current;
     }
 
-    scrollerRef.current.style.setProperty("--scrollerIndex", newIndex.toString());
-    setActiveDataIndex(newIndex);
-
     if (
       (direction === "left" && newIndex === startResetPoint.current) ||
       (direction === "right" && newIndex === endResetPoint.current)
@@ -90,11 +85,11 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
       resetIndex.current = startIndex.current;
       resetRef.current = true;
     }
+    scrollerRef.current.style.setProperty("--scrollerIndex", newIndex.toString());
   }
 
   function onItemClick(itemIndex: number) {
     if (
-      activeDataRef.current == null ||
       scrollerRef.current == null ||
       isScrolling ||
       scrollerData === undefined ||
@@ -107,31 +102,32 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
     const prevIndex = parseInt(getComputedStyle(scrollerRef.current).getPropertyValue("--scrollerIndex"));
     if (prevIndex === resetIndex.current) scrollerRef.current.style.transition = "transform 250ms ease-in";
 
-    scrollerRef.current.style.setProperty("--scrollerIndex", itemIndex.toString());
-    setActiveDataIndex(itemIndex);
-
     if (itemIndex >= endResetPoint.current) {
-      activeDataRef.current.style.transition = "none";
       resetIndex.current = startIndex.current + itemIndex - endResetPoint.current;
       resetRef.current = true;
     }
 
     if (itemIndex <= startResetPoint.current) {
-      activeDataRef.current.style.transition = "none";
       resetIndex.current = startIndex.current - (startResetPoint.current - itemIndex);
       resetRef.current = true;
     }
+
+    scrollerRef.current.style.setProperty("--scrollerIndex", itemIndex.toString());
   }
 
   function onTransitionEnd() {
-    setIsScrolling(false);
+    if (scrollerRef.current == null) return;
 
-    if (resetRef.current && scrollerRef.current) {
+    if (resetRef.current) {
       scrollerRef.current.style.setProperty("--scrollerIndex", resetIndex.current.toString());
       scrollerRef.current.style.transition = "none";
       setActiveDataIndex(resetIndex.current);
       resetRef.current = false;
+    } else {
+      const activeIndex = parseInt(getComputedStyle(scrollerRef.current).getPropertyValue("--scrollerIndex"));
+      setActiveDataIndex(activeIndex);
     }
+    setIsScrolling(false);
   }
 
   return (
@@ -145,14 +141,15 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
             activeDataIndex != undefined &&
             scrollerData.map((item, index) => (
               <img
-                className={cc(styles.scrollerImg,
+                className={cc(
+                  styles.scrollerImg,
                   item.id === scrollerData[activeDataIndex].id && styles.activeImage,
-                  options.blurred && styles.blurred
+                  options.blurred && styles.blurred,
+                  resetRef.current && styles.resetting
                 )}
                 key={item.id}
                 src={item.imgSrc}
                 alt={item.imgAlt}
-                ref={item.id === scrollerData[activeDataIndex].id ? activeDataRef : null}
                 onClick={() => onItemClick(index)}
               />
             ))}
