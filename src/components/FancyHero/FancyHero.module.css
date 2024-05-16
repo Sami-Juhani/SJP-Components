@@ -1,0 +1,21 @@
+.heroContainer {
+   position: relative;
+   width: 100%;
+}
+
+.heroContainer > img {
+    width: 100%;
+}
+
+.typeWriterText {
+    position: absolute;
+    display: inline-block;
+    font-size: 2rem;
+}
+
+.cursor {
+    display: inline-block;
+    margin-left: 0.25rem;
+    font-size: 2rem;
+    color: rgb(124, 124, 124);
+}
