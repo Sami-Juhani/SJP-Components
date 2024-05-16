@@ -7,9 +7,9 @@ function App() {
   return (
     <main className="container-max-width">
       <FancyHeroTest />
-      {/* <NotificationModalTest />
+      <NotificationModalTest />
       <MediaScrollerTest />
-      <InfiniteCarouselTest /> */}
+      <InfiniteCarouselTest />
     </main>
   );
 }
