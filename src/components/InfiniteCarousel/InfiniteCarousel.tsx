@@ -40,18 +40,6 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
   const resetIndex = useRef(0);
   const { ArrowLeft, ArrowRight } = useIcons().arrows;
 
-  // useEffect(() => {
-  //   if (activeDataRef.current === null || scrollerRef.current === null) return;
-  //   const scrollerMiddle =
-  //     scrollerRef.current?.getBoundingClientRect().width / 2 - activeDataRef.current?.getBoundingClientRect().width / 2;
-  //   const x = activeDataRef.current.offsetLeft - scrollerMiddle;
-  //   const y = activeDataRef.current.offsetTop;
-
-  //   scrollerRef.current?.scrollTo({ top: y, left: x, behavior: firstRenderDoneRef.current ? "smooth" : undefined });
-
-  //   firstRenderDoneRef.current = true;
-  // }, [activeDataIndex, activeDataRef, scrollerRef]);
-
   useEffect(() => {
     if (scrollerRef.current == null) return;
     scrollerRef.current.style.setProperty("--itemsOnScreen", options.itemsOnScreen.toString());
@@ -77,43 +65,28 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
     firstRenderDoneRef.current = true;
   }, [data, startIndex, scrollerRef, options.itemsOnScreen]);
 
-  function onLeftClick() {
-    if (scrollerRef.current == null || isScrolling || scrollerData === undefined) return;
+  function onArrowClick(direction: "left" | "right") {
+    if (scrollerRef.current == null || activeDataRef.current == null || isScrolling || scrollerData === undefined)
+      return;
     setIsScrolling(true);
     const prevIndex = parseInt(getComputedStyle(scrollerRef.current).getPropertyValue("--scrollerIndex"));
 
     if (prevIndex === resetIndex.current) scrollerRef.current.style.transition = "transform 250ms ease-in";
 
-    if (prevIndex > 0) {
-      scrollerRef.current.style.setProperty("--scrollerIndex", (prevIndex - 1).toString());
-      setActiveDataIndex(prevIndex - 1);
+    let newIndex;
+    if (direction === "left") {
+      newIndex = prevIndex > 0 ? prevIndex - 1 : startIndex.current;
     } else {
-      scrollerRef.current.style.setProperty("--scrollerIndex", startIndex.toString());
-      setActiveDataIndex(startIndex.current);
+      newIndex = prevIndex < scrollerData.length - 1 ? prevIndex + 1 : startIndex.current;
     }
 
-    if (prevIndex - 1 === startResetPoint.current) {
-      resetIndex.current = startIndex.current;
-      resetRef.current = true;
-    }
-  }
+    scrollerRef.current.style.setProperty("--scrollerIndex", newIndex.toString());
+    setActiveDataIndex(newIndex);
 
-  function onRightClick() {
-    if (scrollerRef.current == null || isScrolling || scrollerData === undefined) return;
-    setIsScrolling(true);
-    const prevIndex = parseInt(getComputedStyle(scrollerRef.current).getPropertyValue("--scrollerIndex"));
-
-    if (prevIndex === resetIndex.current) scrollerRef.current.style.transition = "transform 250ms ease-in";
-
-    if (prevIndex < scrollerData.length - 1) {
-      scrollerRef.current.style.setProperty("--scrollerIndex", (prevIndex + 1).toString());
-      setActiveDataIndex(prevIndex + 1);
-    } else {
-      scrollerRef.current.style.setProperty("--scrollerIndex", startIndex.current.toString());
-      setActiveDataIndex(startIndex.current);
-    }
-
-    if (prevIndex + 1 === endResetPoint.current) {
+    if (
+      (direction === "left" && newIndex === startResetPoint.current) ||
+      (direction === "right" && newIndex === endResetPoint.current)
+    ) {
       resetIndex.current = startIndex.current;
       resetRef.current = true;
     }
@@ -121,6 +94,7 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
 
   function onItemClick(itemIndex: number) {
     if (
+      activeDataRef.current == null ||
       scrollerRef.current == null ||
       isScrolling ||
       scrollerData === undefined ||
@@ -137,11 +111,13 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
     setActiveDataIndex(itemIndex);
 
     if (itemIndex >= endResetPoint.current) {
+      activeDataRef.current.style.transition = "none";
       resetIndex.current = startIndex.current + itemIndex - endResetPoint.current;
       resetRef.current = true;
     }
 
     if (itemIndex <= startResetPoint.current) {
+      activeDataRef.current.style.transition = "none";
       resetIndex.current = startIndex.current - (startResetPoint.current - itemIndex);
       resetRef.current = true;
     }
@@ -161,7 +137,7 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
   return (
     <>
       <section className={styles.carouselContainer}>
-        <button className={styles.prevBtn} type="button" onClick={onLeftClick}>
+        <button className={styles.prevBtn} type="button" onClick={() => onArrowClick("left")}>
           <ArrowLeft />
         </button>
         <div className={styles.carouselScroller} ref={scrollerRef} onTransitionEnd={onTransitionEnd}>
@@ -169,7 +145,7 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
             activeDataIndex != undefined &&
             scrollerData.map((item, index) => (
               <img
-                className={cc(
+                className={cc(styles.scrollerImg,
                   item.id === scrollerData[activeDataIndex].id && styles.activeImage,
                   options.blurred && styles.blurred
                 )}
@@ -181,7 +157,7 @@ export function InfiniteCarousel({ data, options = DEFAULT_CAROUSEL_OPTIONS }: C
               />
             ))}
         </div>
-        <button className={styles.nextBtn} type="button" onClick={onRightClick} disabled={isScrolling}>
+        <button className={styles.nextBtn} type="button" onClick={() => onArrowClick("right")} disabled={isScrolling}>
           <ArrowRight />
         </button>
       </section>

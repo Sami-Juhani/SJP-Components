@@ -2,7 +2,6 @@
   margin-top: 10rem;
   width: 100%;
   position: relative;
-  overflow-x: hidden;
   background-color: rgba(0, 0, 0, 0.65);
 }
 
@@ -25,26 +24,32 @@
   transition: transform 250ms ease-in;
 }
 
-.carouselScroller > img {
+.scrollerImg {
   width: 100%;
   object-fit: cover;
   border-radius: 0.25rem;
   overflow: hidden;
   cursor: pointer;
+  transition: transform 250ms ease-in-out;
 }
 
-.carouselScroller > img.blurred {
+.scrollerImg:not(scrollerImg.activeImage):hover {
+  z-index: 1;
+}
+
+.scrollerImg.blurred {
   filter: blur(5px);
 }
 
-.carouselScroller > img:hover {
+.scrollerImg:hover {
   filter: blur(0px);
   border: 3px solid rgb(240, 110, 110);
 }
 
-.carouselScroller > img.activeImage {
+.scrollerImg.activeImage {
   border: 3px solid rgb(255, 0, 0);
   filter: blur(0px);
+  transform: scale(1.5);
 }
 
 .prevBtn,
@@ -93,7 +98,7 @@
 
 .activeData {
   width: 60%;
-  margin: 1rem auto;
+  margin: 3rem auto;
 }
 
 .activeData h3 {
