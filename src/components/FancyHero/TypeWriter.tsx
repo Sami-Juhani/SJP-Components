@@ -4,8 +4,8 @@ import styles from "./FancyHero.module.css";
 export type TypeWriterOptions = {
   x?: string;
   y?: string;
-  typingSpeed?: number;
-  eraseSpeed?: number;
+  typingDelay?: number;
+  eraseDelay?: number;
   startDelay?: number;
   endDelay?: number;
 };
@@ -59,8 +59,8 @@ export function TypeWriter({ paragraph, options }: TypeWriterProps) {
         : displayChar.length === chars.length
           ? options.endDelay
           : charIndex < chars.length
-            ? options.typingSpeed
-            : options.eraseSpeed
+            ? options.typingDelay
+            : options.eraseDelay
     );
     return () => {
       clearTimeout(timeout), clearInterval(interval);
