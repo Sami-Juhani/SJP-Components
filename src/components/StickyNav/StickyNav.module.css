@@ -1,0 +1,77 @@
+.headerContainer {
+  --_animationStartAfter: 150px;
+  --_animationDistance: 200px;
+  --_textColorStart: rgb(230, 230, 230);
+  --_textColorEnd: rgb(15, 15, 15, 0.8);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 3rem;
+  align-items: center;
+  background-color: rgb(15, 15, 15);
+  color: var(--_textColorStart);
+  font-weight: 500;
+  margin: 0 auto;
+  width: var(--_headerWidth, auto);
+
+  position: sticky;
+  z-index: 9999;
+  top: -5rem;
+
+  @supports (animation-timeline: view()) {
+    animation: stickyNav linear forwards;
+    backdrop-filter: blur(0.15rem);
+    animation-timeline: view();
+    animation-range-start: calc(100vh + var(--_animationStartAfter));
+    animation-range-end: calc(100vh + var(--_animationDistance) + var(--_animationStartAfter));
+  }
+}
+
+@keyframes stickyNav {
+  0%,
+  100% {
+    --_headerWidth: fit-content;
+    --_logoDisplay: none;
+  }
+  100% {
+    top: 1rem;
+    color: var(--_textColorEnd);
+    border-radius: 100vw;
+    background-color: rgb(15, 15, 15, 0.2);
+    box-shadow: 0 0 0.75rem hsl(0 0% 0% / 0.3);
+  }
+}
+
+.headerContainer > img {
+  width: 30px;
+}
+
+.logoContainer {
+  display: var(--_logoDisplay, flex);
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoContainer > svg {
+  font-size: 2rem;
+  fill: rgb(230, 230, 230);
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover,
+  &:focus {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 0;
+    text-underline-offset: 0.17lh;
+  }
+}
