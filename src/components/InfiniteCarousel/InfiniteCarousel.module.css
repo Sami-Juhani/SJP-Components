@@ -17,8 +17,10 @@
   padding-block: 0.5rem;
   transform: translateX(
     calc(
-      (var(--scrollerIndex) * var(--image-width) + var(--scrollerIndex) * var(--itemGap)) * -1 + 50% -
-        var(--image-width) / 2
+      (
+          var(--scrollerIndex) * var(--image-width) + var(--scrollerIndex) *
+            var(--itemGap)
+        ) * -1 + 50% - var(--image-width) / 2
     )
   );
   transition: transform 250ms ease-in;
@@ -43,11 +45,11 @@
 
 .scrollerImg:hover {
   filter: blur(0px);
-  border: 3px solid rgb(240, 110, 110);
+  border: 2px solid rgb(240, 110, 110);
 }
 
 .scrollerImg.activeImage {
-  border: 3px solid rgb(255, 0, 0);
+  border: 2px solid rgb(255, 0, 0);
   filter: blur(0px);
   transform: scale(1.5);
 }
@@ -107,4 +109,11 @@
 
 .activeData span {
   font-size: var(--title-size-sm);
+}
+
+@media screen and (max-width: 450px) {
+  .scrollerImg.activeImage {
+    border: 1px solid rgb(255, 0, 0);
+    transform: scale(2.5);
+  }
 }
